@@ -17,11 +17,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Hobby extends BaseEntity {
+
     @Column(name = "name", length = 50, nullable = false)
     private String name;
     @Column(name = "description", length = 100, nullable = true)
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "hobby")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "hobby")
     List<UserHobby> userHobbies ;
 }
+

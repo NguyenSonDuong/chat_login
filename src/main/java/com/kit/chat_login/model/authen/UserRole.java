@@ -1,6 +1,7 @@
 package com.kit.chat_login.model.authen;
 
 
+import com.kit.chat_login.model.BaseEntity;
 import com.kit.chat_login.model.User;
 import com.kit.chat_login.model.otp.OtpType;
 import javax.persistence.*;

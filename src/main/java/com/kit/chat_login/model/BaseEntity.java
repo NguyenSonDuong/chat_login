@@ -25,7 +25,7 @@ public class BaseEntity {
     private int _id;
 
     @Column(name = "status")
-    private int status;
+    private StatusModel status;
 
     @Column(name = "create_at")
     private Date create_at;

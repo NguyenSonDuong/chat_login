@@ -35,19 +35,19 @@ public class User extends BaseEntity{
 
 
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
-    private UserInfo userInfo;
+    private UserInfo userInfo = new UserInfo();
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "users")
-    private List<Token> tokens ;
+    private List<Token> tokens = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Otp> otps ;
+    private List<Otp> otps = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    private List<UserRole> userRoles ;
+    private List<UserRole> userRoles = new ArrayList<>();
 
     @OneToMany
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
 }

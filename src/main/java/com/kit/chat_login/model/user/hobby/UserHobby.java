@@ -1,6 +1,7 @@
 package com.kit.chat_login.model.user.hobby;
 
 
+import com.kit.chat_login.model.BaseEntity;
 import com.kit.chat_login.model.authen.Role;
 import com.kit.chat_login.model.user.UserInfo;
 import javax.persistence.*;
@@ -17,13 +18,15 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserHobby  implements Serializable {
+public class UserHobby implements Serializable {
+
     @Id
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_info_id")
     private UserInfo user;
 
+    @Id
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "hobby_id")
+    @JoinColumn(name = "hobby_id" )
     private Hobby hobby;
 }
