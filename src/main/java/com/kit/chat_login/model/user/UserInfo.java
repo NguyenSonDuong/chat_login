@@ -4,7 +4,6 @@ import com.kit.chat_login.model.BaseEntity;
 import com.kit.chat_login.model.User;
 import com.kit.chat_login.model.user.address.Address;
 import com.kit.chat_login.model.user.hobby.Hobby;
-import com.kit.chat_login.model.user.hobby.UserHobby;
 import com.kit.chat_login.model.user.setting.Setting;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
@@ -20,7 +20,7 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo extends BaseEntity {
+public class UserInfo extends BaseEntity implements Serializable {
 
     @Column(name = "fullname", length = 100)
     private String fullname;
@@ -34,12 +34,9 @@ public class UserInfo extends BaseEntity {
     @Column(name = "sex")
     private int sex;
 
-    @OneToMany(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
-    @JoinTable(name = "user_hobby",
-            joinColumns = @JoinColumn(name = "user_info_id"),
-            inverseJoinColumns = @JoinColumn(name = "hobby_id")
-    )
-    private Set<Hobby> hobby ;
+    @ManyToMany
+    @JoinTable(name = "user_hobby", joinColumns = @JoinColumn(name = "user_info_id"), inverseJoinColumns = @JoinColumn(name = "hobby_id"))
+    Set<Hobby> hobbies = new HashSet<>();
 
 
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)

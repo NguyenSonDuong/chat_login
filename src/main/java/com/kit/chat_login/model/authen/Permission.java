@@ -22,6 +22,6 @@ public class Permission extends BaseEntity {
     @Column(name = "description", length = 100, nullable = true)
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "permission")
-    private List<RolePermission> rolePermissions;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "permissions")
+    private List<Permission> permissions = new ArrayList<>();
 }

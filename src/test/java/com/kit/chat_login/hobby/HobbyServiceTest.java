@@ -153,7 +153,7 @@ public class HobbyServiceTest {
 
     @Test
     public void readHobbyByName(){
-        Page<HobbyDto> hobbyDtos = hobbyService.readHobby("Chơi",Pageable.ofSize(10));
+        Page<HobbyDto> hobbyDtos = hobbyService.readHobby("%Chơi%",Pageable.ofSize(10));
     }
 
     @Test

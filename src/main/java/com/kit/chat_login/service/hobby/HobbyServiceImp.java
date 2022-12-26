@@ -5,6 +5,7 @@ import com.kit.chat_login.exception.HobbyException;
 import com.kit.chat_login.mapping.HobbyMapping;
 import com.kit.chat_login.message.hobby.HobbyErrorMessage;
 import com.kit.chat_login.model.StatusModel;
+import com.kit.chat_login.model.user.UserInfo;
 import com.kit.chat_login.model.user.hobby.Hobby;
 import com.kit.chat_login.repository.hobby.HobbyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,7 @@ public class HobbyServiceImp implements HobbyService{
         Page<Hobby> hobbies = hobbyRepository.findByNameLike(name, pageable);
         if(hobbies == null || hobbies.isEmpty())
             throw new HobbyException(HobbyErrorMessage.NOT_FOUND);
+        System.out.println( hobbies.getContent().get(0).getUserInfos().toString());
         Page<HobbyDto> hobbydto = hobbies.map(new Function<Hobby, HobbyDto>() {
             @Override
             public HobbyDto apply(Hobby hobby) {

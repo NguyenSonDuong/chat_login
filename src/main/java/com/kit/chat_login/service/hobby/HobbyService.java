@@ -1,12 +1,9 @@
 package com.kit.chat_login.service.hobby;
 
 import com.kit.chat_login.dto.HobbyDto;
-import com.kit.chat_login.model.user.hobby.UserHobby;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public interface HobbyService {

@@ -7,11 +7,9 @@ import com.kit.chat_login.mapping.UserMapping;
 import com.kit.chat_login.model.User;
 import com.kit.chat_login.model.user.UserInfo;
 import com.kit.chat_login.model.user.hobby.Hobby;
-import com.kit.chat_login.model.user.hobby.UserHobby;
 import com.kit.chat_login.repository.UserRepository;
 import com.kit.chat_login.repository.hobby.HobbyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.data.domain.Pageable;
@@ -45,9 +43,9 @@ public class UserServiceImp implements UserService{
 //            userHobby.setHobby(item);
 //            userHobby.setUser(userInfo);
 //        }
-//        userInfo.setUserHobbies(userHobbies);
+//        userInfo.setUserHobbies(new HashSet<>(userHobbies));
+        userInfo.setHobbies(hobbies);
         userInfo.setFullname("Nguyen Duong");
-        userInfo.setHobby(hobbies);
         User user = new User();
         user.setUserInfo(userInfo);
         user.setEmail("nguyenduong@gmail.com");
