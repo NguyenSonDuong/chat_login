@@ -1,5 +1,6 @@
 package com.kit.chat_login.user;
 
+import com.kit.chat_login.dto.TokenDto;
 import com.kit.chat_login.dto.UserDto;
 import com.kit.chat_login.model.token.Token;
 import com.kit.chat_login.service.user.UserService;
@@ -21,7 +22,7 @@ public class UserServiceTest {
 
     @Test
     public void loginTest(){
-        Token token = userService.login("nguyenduong08041999","nguyenduong123");
+        TokenDto token = userService.login("nguyenduong08041999","nguyenduong123");
         System.out.println(token);
         assertThat(token).isNotNull();
     }

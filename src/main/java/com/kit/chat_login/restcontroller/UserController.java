@@ -1,5 +1,6 @@
 package com.kit.chat_login.restcontroller;
 
+import com.kit.chat_login.dto.TokenDto;
 import com.kit.chat_login.dto.UserDto;
 import com.kit.chat_login.exception.UserException;
 import com.kit.chat_login.help.Help;
@@ -35,7 +36,7 @@ public class UserController {
             @NotBlank(message = "Password is required")
             @Size(min = 10, max = 100, message = "Password is wrong format")
             String password ){
-        Token token = userService.login(username, password);
+        TokenDto token = userService.login(username, password);
         if(token == null)
             throw new UserException(UserErrorMessage.LOGIN_ERROR);
         return Help.Success("Login success", token);

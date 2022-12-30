@@ -10,5 +10,5 @@ public class UserErrorMessage {
     public static final String WRONG_DATA_FORMAT = "Wrong data format";
     public static final String USER_NOT_EXITS = "User isn't exits";
     public static final String TOKEN_NOT_SAVE = "Token not save";
-    public static final String LOGIN_ERROR = "Login error";
+    public static final String LOGIN_ERROR = "Username or password wrong";
 }

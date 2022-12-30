@@ -60,7 +60,7 @@ public class UserServiceImp implements UserService{
         if(!matcher.find()){
             User user = userRepository.findByUsername(username);
             if(user == null)
-                throw new UserException(UserErrorMessage.USER_NOT_EXITS);
+                throw new UserException(UserErrorMessage.LOGIN_ERROR);
             if(new BCryptPasswordEncoder().matches(password, user.getPassword())){
                 UserDetailsImp userPrincipal = UserMapping.convertUserDetailsImp(user);
                 token.setToken(jwtUtil.generateToken(userPrincipal));
@@ -77,7 +77,7 @@ public class UserServiceImp implements UserService{
         }else{
             User user = userRepository.findByEmail(username);
             if(user == null)
-                throw new UserException(UserErrorMessage.USER_NOT_EXITS);
+                throw new UserException(UserErrorMessage.LOGIN_ERROR);
             if(new BCryptPasswordEncoder().matches(password, user.getPassword())){
                 UserDetailsImp userPrincipal = UserMapping.convertUserDetailsImp(user);
                 token.setToken(jwtUtil.generateToken(userPrincipal));
@@ -88,7 +88,7 @@ public class UserServiceImp implements UserService{
                     throw new UserException(UserErrorMessage.TOKEN_NOT_SAVE);
                 return TokenMapping.convert(token1);
             }else{
-                throw new UserException("Username or password were wrong");
+                throw new UserException(UserErrorMessage.LOGIN_ERROR);
             }
 
         }
