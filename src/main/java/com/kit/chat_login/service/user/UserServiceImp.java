@@ -1,8 +1,10 @@
 package com.kit.chat_login.service.user;
 
 
+import com.kit.chat_login.dto.TokenDto;
 import com.kit.chat_login.dto.UserDto;
 import com.kit.chat_login.exception.UserException;
+import com.kit.chat_login.mapping.TokenMapping;
 import com.kit.chat_login.mapping.UserInfoMapping;
 import com.kit.chat_login.mapping.UserMapping;
 import com.kit.chat_login.message.user.UserErrorMessage;
@@ -50,7 +52,7 @@ public class UserServiceImp implements UserService{
     @Autowired
     RoleService roleService;
     @Override
-    public Token login(String username, String password) {
+    public TokenDto login(String username, String password) {
         String regex = "^(\\S+)@([\\S]+)$";
         Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(username);
@@ -67,7 +69,7 @@ public class UserServiceImp implements UserService{
                 Token token1 = tokenRepository.save(token);
                 if(token1 == null)
                     throw new UserException(UserErrorMessage.TOKEN_NOT_SAVE);
-                return token1;
+                return TokenMapping.convert(token1);
             }else{
                 throw new UserException("Username or password were wrong");
             }
@@ -84,7 +86,7 @@ public class UserServiceImp implements UserService{
                 Token token1 = tokenRepository.save(token);
                 if(token1 == null)
                     throw new UserException(UserErrorMessage.TOKEN_NOT_SAVE);
-                return token1;
+                return TokenMapping.convert(token1);
             }else{
                 throw new UserException("Username or password were wrong");
             }
