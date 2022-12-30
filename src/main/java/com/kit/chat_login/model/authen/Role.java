@@ -26,11 +26,11 @@ public class Role extends BaseEntity {
     @Column(name = "description", length = 100, nullable = true)
     private String description;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "roles")
     private Set<User> user = new HashSet<>();
 
-    @ManyToMany
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    private Set<Permission> permissions;
+    private Set<Permission> permissions = new HashSet<>();
 
 }

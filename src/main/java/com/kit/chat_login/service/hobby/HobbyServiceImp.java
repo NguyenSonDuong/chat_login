@@ -89,12 +89,7 @@ public class HobbyServiceImp implements HobbyService{
         Page<HobbyDto> hobbydto = hobbies.map(new Function<Hobby, HobbyDto>() {
             @Override
             public HobbyDto apply(Hobby hobby) {
-                HobbyDto hobbyDto = new HobbyDto(
-                        hobby.getStatus(),
-                        hobby.getName(),
-                        hobby.getDescription()
-                );
-                return hobbyDto;
+                return HobbyMapping.convert(hobby);
             }
         });
         return hobbydto;

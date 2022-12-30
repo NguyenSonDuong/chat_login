@@ -17,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Token extends BaseEntity {
-    @Column(name = "token", length = 300,nullable = false)
+    @Column(name = "token", length = 500,nullable = false)
     private String token;
     @Column(name = "token_exp")
     private Date token_exp;
@@ -25,4 +25,12 @@ public class Token extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User users;
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "token='" + token + '\'' +
+                ", token_exp=" + token_exp +
+                '}';
+    }
 }
