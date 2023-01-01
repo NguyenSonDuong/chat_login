@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Entity
 @Table(name = "otp")
@@ -20,15 +21,15 @@ public class Otp extends BaseEntity  {
     @Column(name = "code", length = 5,nullable = false)
     private String code;
     @Column(name = "code_exp", nullable = false)
-    private String code_exp;
-    @Column(name = "confirm")
-    private int congfirm;
+    private Date code_exp;
+    @Column(name = "config")
+    private OtpConfig config;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "otp_type_id")
+    @Column(name = "otp_type")
     private OtpType otp_type;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }

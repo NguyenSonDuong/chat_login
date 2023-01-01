@@ -47,7 +47,7 @@ public class SecuriryConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers(new String[]{"/v1/auth/login","/v1/auth/register"}).permitAll()
+                .antMatchers(new String[]{"/v1/auth/login","/v1/auth/register","/test/**"}).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)

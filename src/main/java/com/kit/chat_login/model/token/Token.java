@@ -22,7 +22,7 @@ public class Token extends BaseEntity {
     @Column(name = "token_exp")
     private Date token_exp;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User users;
 

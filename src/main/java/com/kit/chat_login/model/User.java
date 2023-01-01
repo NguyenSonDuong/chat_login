@@ -36,17 +36,20 @@ public class User extends BaseEntity{
     private String password;
     @Column(name = "time_disable")
     private Date time_disable;
+    @Column(name = "2fa_enable")
+    private TwoFAStatus _2fa_enable;
+    @Column(name = "secret")
+    private String secret;
 
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user", orphanRemoval = true)
     private UserInfo userInfo = new UserInfo();
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "users")
-    private List<Token> tokens = new ArrayList<>();
+    private Set<Token> tokens;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Otp> otps = new ArrayList<>();
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private Set<Otp> otps;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))

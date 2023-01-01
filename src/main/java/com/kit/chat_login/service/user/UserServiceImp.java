@@ -9,6 +9,7 @@ import com.kit.chat_login.mapping.UserInfoMapping;
 import com.kit.chat_login.mapping.UserMapping;
 import com.kit.chat_login.message.user.UserErrorMessage;
 import com.kit.chat_login.model.StatusModel;
+import com.kit.chat_login.model.TwoFAStatus;
 import com.kit.chat_login.model.User;
 import com.kit.chat_login.model.authen.Role;
 import com.kit.chat_login.model.token.Token;
@@ -21,6 +22,7 @@ import com.kit.chat_login.repository.token.TokenRepository;
 import com.kit.chat_login.security.jwt.JwtUtil;
 import com.kit.chat_login.security.jwt.userdetail.UserDetailsImp;
 import com.kit.chat_login.service.authen.role.RoleService;
+import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
@@ -66,6 +68,7 @@ public class UserServiceImp implements UserService{
                 token.setToken(jwtUtil.generateToken(userPrincipal));
                 token.setToken_exp(jwtUtil.generateExpirationDate());
                 token.setStatus(StatusModel.ACTIVE);
+                token.setUsers(user);
                 Token token1 = tokenRepository.save(token);
                 if(token1 == null)
                     throw new UserException(UserErrorMessage.TOKEN_NOT_SAVE);
@@ -83,6 +86,7 @@ public class UserServiceImp implements UserService{
                 token.setToken(jwtUtil.generateToken(userPrincipal));
                 token.setToken_exp(jwtUtil.generateExpirationDate());
                 token.setStatus(StatusModel.ACTIVE);
+                token.setUsers(user);
                 Token token1 = tokenRepository.save(token);
                 if(token1 == null)
                     throw new UserException(UserErrorMessage.TOKEN_NOT_SAVE);
@@ -128,6 +132,9 @@ public class UserServiceImp implements UserService{
         user.setRoles(new HashSet<>());
         user.getRoles().add(userRole);
 
+        user.set_2fa_enable(TwoFAStatus.ONE_ENABLE);
+        user.setSecret(Base32.random());
+
         user.setStatus(StatusModel.ACTIVE);
 
         User userSave = userRepository.saveAndFlush(user);
@@ -139,6 +146,24 @@ public class UserServiceImp implements UserService{
     @Override
     public boolean changePassword(String oldPassword, String newPassword) {
         return false;
+    }
+
+    @Override
+    public User searchUserById(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if(user == null || user.isEmpty() ){
+            throw new UserException(UserErrorMessage.USER_NOT_EXITS);
+        }
+        return user.get();
+    }
+
+    @Override
+    public User searchUserByUuid(String uuid) {
+        User user = userRepository.findByUuid(uuid);
+        if(user == null){
+            throw new UserException(UserErrorMessage.USER_NOT_EXITS);
+        }
+        return user;
     }
 
     @Override
