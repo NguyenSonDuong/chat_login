@@ -10,7 +10,7 @@ public class OtpMapping {
                 otp.getCreate_at(),
                 otp.getCode(),
                 otp.getCode(),
-                otp.getCongfirm(),
+                otp.getConfig(),
                 otp.getOtp_type(),
                 otp.getCode_exp()
         );

@@ -13,11 +13,15 @@ import java.util.List;
 @Service
 public interface UserService {
     TokenDto login(String username, String password);
-    UserDto register(String username, String email, String password);
+    TokenDto register(String username, String email, String password);
     boolean changePassword(String oldPassword, String newPassword);
     User searchUserById(int id);
     User searchUserByUuid(String uuid);
     Page<UserDto> searchUser(String username,Pageable pageable);
+    UserDto activeUser(String uuid);
+    UserDto disableUser(String uuid);
+    UserDto lockUser(String uuid);
+    UserDto addRole(String uuid,String name);
 
 
 }

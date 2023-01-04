@@ -11,4 +11,7 @@ public class UserErrorMessage {
     public static final String USER_NOT_EXITS = "User isn't exits";
     public static final String TOKEN_NOT_SAVE = "Token not save";
     public static final String LOGIN_ERROR = "Username or password wrong";
+    public static final String DISABLE_USER_ERROR = "Disable user error";
+    public static final String LOCK_USER_ERROR = "Lock user error";
+    public static final String ACTIVE_USER_ERROR = "Active user error";
 }

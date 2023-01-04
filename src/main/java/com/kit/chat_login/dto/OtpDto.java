@@ -17,7 +17,7 @@ public class OtpDto implements Serializable {
     private final Date create_at;
     private final String code;
     private final String code_exp;
-    private final OtpConfig congfirm;
+    private final OtpConfig confirm;
     private final OtpType otp_type;
     private final Date otp_exp;
 }

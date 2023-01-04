@@ -22,6 +22,7 @@ import com.kit.chat_login.repository.token.TokenRepository;
 import com.kit.chat_login.security.jwt.JwtUtil;
 import com.kit.chat_login.security.jwt.userdetail.UserDetailsImp;
 import com.kit.chat_login.service.authen.role.RoleService;
+import com.kit.chat_login.service.token.TokenService;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -47,12 +48,12 @@ public class UserServiceImp implements UserService{
     RoleRepository roleRepository;
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
     TokenRepository tokenRepository;
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    TokenService tokenService;
     @Override
     public TokenDto login(String username, String password) {
         String regex = "^(\\S+)@([\\S]+)$";
@@ -64,15 +65,7 @@ public class UserServiceImp implements UserService{
             if(user == null)
                 throw new UserException(UserErrorMessage.LOGIN_ERROR);
             if(new BCryptPasswordEncoder().matches(password, user.getPassword())){
-                UserDetailsImp userPrincipal = UserMapping.convertUserDetailsImp(user);
-                token.setToken(jwtUtil.generateToken(userPrincipal));
-                token.setToken_exp(jwtUtil.generateExpirationDate());
-                token.setStatus(StatusModel.ACTIVE);
-                token.setUsers(user);
-                Token token1 = tokenRepository.save(token);
-                if(token1 == null)
-                    throw new UserException(UserErrorMessage.TOKEN_NOT_SAVE);
-                return TokenMapping.convert(token1);
+                return tokenService.createToken(user);
             }else{
                 throw new UserException("Username or password were wrong");
             }
@@ -82,15 +75,7 @@ public class UserServiceImp implements UserService{
             if(user == null)
                 throw new UserException(UserErrorMessage.LOGIN_ERROR);
             if(new BCryptPasswordEncoder().matches(password, user.getPassword())){
-                UserDetailsImp userPrincipal = UserMapping.convertUserDetailsImp(user);
-                token.setToken(jwtUtil.generateToken(userPrincipal));
-                token.setToken_exp(jwtUtil.generateExpirationDate());
-                token.setStatus(StatusModel.ACTIVE);
-                token.setUsers(user);
-                Token token1 = tokenRepository.save(token);
-                if(token1 == null)
-                    throw new UserException(UserErrorMessage.TOKEN_NOT_SAVE);
-                return TokenMapping.convert(token1);
+                return tokenService.createToken(user);
             }else{
                 throw new UserException(UserErrorMessage.LOGIN_ERROR);
             }
@@ -99,7 +84,7 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public UserDto register(String username, String email, String password) {
+    public TokenDto register(String username, String email, String password) {
 
         if(username.isBlank() || email.isBlank() || password.isBlank()){
             throw new UserException(UserErrorMessage.DATA_EMPTY);
@@ -127,20 +112,21 @@ public class UserServiceImp implements UserService{
         UserInfo userInfo = new UserInfo();
         userInfo.setHobbies(new HashSet<>());
 
-        Role userRole = roleService.readRole("USER");
+        Role userRole = roleService.readRole("REGISTER");
 
         user.setRoles(new HashSet<>());
         user.getRoles().add(userRole);
 
-        user.set_2fa_enable(TwoFAStatus.ONE_ENABLE);
+        user.set_2fa_enable(TwoFAStatus.DISABLE);
         user.setSecret(Base32.random());
 
-        user.setStatus(StatusModel.ACTIVE);
+        user.setStatus(StatusModel.LOCK);
 
         User userSave = userRepository.saveAndFlush(user);
         if(userSave == null)
             throw new UserException(UserErrorMessage.CREATE_ERROR);
-        return UserMapping.convert(userSave);
+
+        return tokenService.createToken(user);
     }
 
     @Override
@@ -172,4 +158,44 @@ public class UserServiceImp implements UserService{
         return null;
     }
 
+    @Override
+    public UserDto activeUser(String uuid) {
+        User user = searchUserByUuid(uuid);
+        user.setStatus(StatusModel.ACTIVE);
+        User userSave = userRepository.saveAndFlush(user);
+        if(userSave == null)
+            throw new UserException(UserErrorMessage.ACTIVE_USER_ERROR);
+        return UserMapping.convert(userSave);
+    }
+
+    @Override
+    public UserDto disableUser(String uuid) {
+        User user = searchUserByUuid(uuid);
+        user.setStatus(StatusModel.DISABLE);
+        User userSave = userRepository.saveAndFlush(user);
+        if(userSave == null)
+            throw new UserException(UserErrorMessage.DISABLE_USER_ERROR);
+        return UserMapping.convert(userSave);
+    }
+
+    @Override
+    public UserDto lockUser(String uuid) {
+        User user = searchUserByUuid(uuid);
+        user.setStatus(StatusModel.LOCK);
+        User userSave = userRepository.saveAndFlush(user);
+        if(userSave == null)
+            throw new UserException(UserErrorMessage.LOCK_USER_ERROR);
+        return UserMapping.convert(userSave);
+    }
+
+    @Override
+    public UserDto addRole(String uuid,String name) {
+        User user = searchUserByUuid(uuid);
+        Role role = roleService.readRole(name);
+        user.getRoles().add(role);
+        User userSave = userRepository.saveAndFlush(user);
+        if(userSave == null)
+            throw new UserException(UserErrorMessage.LOCK_USER_ERROR);
+        return null;
+    }
 }

@@ -10,6 +10,6 @@ public class UserController {
 
     @GetMapping("/abc")
     public String testEmail(){
-        return "email/email_code";
+        return "email/email_code.html";
     }
 }

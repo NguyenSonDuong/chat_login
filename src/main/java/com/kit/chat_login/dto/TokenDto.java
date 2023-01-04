@@ -15,4 +15,5 @@ public class TokenDto implements Serializable {
     private final Date create_at;
     private final String token;
     private final Date token_exp;
+    private final String uuid_user;
 }

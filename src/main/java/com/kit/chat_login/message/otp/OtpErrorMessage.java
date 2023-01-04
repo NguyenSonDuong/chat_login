@@ -8,4 +8,5 @@ public class OtpErrorMessage {
     public static final String DATA_EMPTY = "Data is empty";
     public static final String SIZE_WRONG = "Size otp small or longer";
     public static final String OTP_EXP = "Otp is exp";
+    public static final String OTP_SENDED = "Otp is send";
 }

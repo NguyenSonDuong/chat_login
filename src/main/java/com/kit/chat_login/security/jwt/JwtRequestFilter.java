@@ -52,7 +52,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             user = jwtUtil.getUserFromToken(jwt);
             token = tokenRepository.findByToken(jwt);
         }
-        if (user != null && token != null && token.getToken_exp().after(new Date()) && token.getStatus() == StatusModel.ACTIVE) {
+        if (user != null
+                && token != null
+                && token.getToken_exp().after(new Date())
+                && token.getStatus() == StatusModel.ACTIVE) {
             Set<GrantedAuthority> authorities = new HashSet<>();
             for (Object role : user.getAuthorities().toArray()) {
                 authorities.add(new SimpleGrantedAuthority(role.toString()));

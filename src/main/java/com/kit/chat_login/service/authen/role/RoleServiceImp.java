@@ -29,10 +29,10 @@ public class RoleServiceImp implements RoleService {
             throw new RoleException(RoleErrorMessage.DATA_EMPTY);
 
         Set<Permission> permissions = new HashSet<>();
-        permissions.add(new Permission(name+"_READ",""));
-        permissions.add(new Permission(name+"_UPDATE",""));
-        permissions.add(new Permission(name+"_DELETE",""));
-        permissions.add(new Permission(name+"_CREATE",""));
+        permissions.add(new Permission(name+"_READ","", StatusModel.ACTIVE));
+        permissions.add(new Permission(name+"_UPDATE","", StatusModel.ACTIVE));
+        permissions.add(new Permission(name+"_DELETE","", StatusModel.ACTIVE));
+        permissions.add(new Permission(name+"_CREATE","", StatusModel.ACTIVE));
 
         Role role = new Role();
         role.setStatus(StatusModel.ACTIVE);

@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Component
 public class EmailServiceImp implements EmailService{
@@ -28,5 +32,18 @@ public class EmailServiceImp implements EmailService{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean sendEmailHtml(String to, String subject, String text) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        message.setSubject(subject);
+        MimeMessageHelper helper;
+        helper = new MimeMessageHelper(message, true);
+        helper.setFrom(emailfrom);
+        helper.setTo(to);
+        helper.setText(text, true);
+        javaMailSender.send(message);
+        return false;
     }
 }

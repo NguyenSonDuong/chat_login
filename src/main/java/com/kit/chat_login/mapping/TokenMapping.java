@@ -11,7 +11,8 @@ public class TokenMapping {
                 token.getStatus(),
                 token.getCreate_at(),
                 token.getToken(),
-                token.getToken_exp()
+                token.getToken_exp(),
+                token.getUsers().getUuid()
         );
     }
 }

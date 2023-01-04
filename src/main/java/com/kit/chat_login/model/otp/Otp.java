@@ -18,7 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Otp extends BaseEntity  {
-    @Column(name = "code", length = 5,nullable = false)
+    @Column(name = "code", length = 8,nullable = false)
     private String code;
     @Column(name = "code_exp", nullable = false)
     private Date code_exp;
@@ -29,7 +29,7 @@ public class Otp extends BaseEntity  {
     private OtpType otp_type;
 
 
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }
