@@ -108,13 +108,11 @@ public class OtpServiceImp implements OtpService{
         otp.setCode(code);
         otp.setCode_exp(new Date());
         otp.setUser(user);
-        Otp otpSave = otpRepository.saveAndFlush(otp);
         if(totp.verify(code)){
-            return OtpMapping.convert(otpSave);
+            return otp;
         }else{
             return null;
         }
-        return null;
     }
 
     @Override
@@ -131,29 +129,31 @@ public class OtpServiceImp implements OtpService{
         }else{
 
         }
+        return null;
 
     }
 
     @Override
     public boolean sendCodeOtp(String uuid) {
         User user  = userService.searchUserByUuid(uuid);
-        OtpDto code = generalMailOTP(user,6);
-        if(code == null)
-            throw new OtpException(OtpErrorMessage.CREATE_ERROR);
-        boolean isSuccess = false;
-        try {
-            isSuccess = emailService
-                    .sendEmailHtml(
-                            user.getEmail()
-                            ,"Kit502"
-                            , Help.getResourceFileAsString("templates/email/email_code.html")
-                                    .replace("${CODE}", code.getCode())
-                                    .replace("${USERNAME}", user.getUsername())
-                    );
-        } catch (MessagingException e) {
-            throw new OtpException(e.getMessage());
-        }
-        return isSuccess;
+        return false;
+//        OtpDto code = generalMailOTP(user,6);
+//        if(code == null)
+//            throw new OtpException(OtpErrorMessage.CREATE_ERROR);
+//        boolean isSuccess = false;
+//        try {
+//            isSuccess = emailService
+//                    .sendEmailHtml(
+//                            user.getEmail()
+//                            ,"Kit502"
+//                            , Help.getResourceFileAsString("templates/email/email_code.html")
+//                                    .replace("${CODE}", code.getCode())
+//                                    .replace("${USERNAME}", user.getUsername())
+//                    );
+//        } catch (MessagingException e) {
+//            throw new OtpException(e.getMessage());
+//        }
+//        return isSuccess;
     }
 
     @Override
